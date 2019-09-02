@@ -70,7 +70,46 @@ novaPartida::Int->Tabuleiro->IO()
 novaPartida id tabuleiro = do
     system("clear")
     putStrLn("Vez do Jogador " ++ show id)
---    imprimeTabuleiro tabuleiro
 
---imprimeTabuleiro::Tabuleiro->IO()
---imprimeTabuleiro tabuleiro
+
+-- Renderizar tabuleiro
+
+renderLinhasAux 8 = putStrLn("")
+renderLinhasAux cont = do
+    putStr(" -------")
+    renderLinhasAux (cont + 1)
+    
+linhaCampoPreto:: Int -> IO()
+linhaCampoPreto 8 = putStrLn("|")
+linhaCampoPreto cont = do
+    putStr("| . . . ")
+    linhaCampoBranco (cont + 1)
+    
+linhaCampoBranco:: Int -> IO()
+linhaCampoBranco 8 = putStrLn("|")
+linhaCampoBranco cont = do
+    putStr("|       ")
+    linhaCampoPreto (cont + 1)
+
+renderLinha :: Int -> IO()
+renderLinha cont
+    | (mod cont 4 == 0) = do
+        linhaCampoPreto 1
+        linhaCampoPreto 1
+        linhaCampoPreto 1
+    | (mod cont 2 == 1) = renderLinhasAux 1 
+    | otherwise = do
+        linhaCampoBranco 1
+        linhaCampoBranco 1
+        linhaCampoBranco 1
+
+renderTabuleiro:: Tabuleiro -> Int -> IO()
+renderTabuleiro _ 17 = do
+    renderLinhasAux 1
+
+renderTabuleiro tabuleiro cont = do
+    renderLinha cont
+    renderTabuleiro tabuleiro (cont + 1)
+      
+
+
