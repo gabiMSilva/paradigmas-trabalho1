@@ -13,17 +13,17 @@ type Nome = String
 type Id = Int
 data Jogador = Jogador Id Nome QtdPecas deriving (Show)
 
-main::IO()
+main :: IO()
 main = do
     menu
 
-getString::String->IO String
+getString :: String -> IO String
 getString str = do
     putStr str
     res <- getLine
     return res
 
-menu::IO()
+menu :: IO()
 menu = do
     system "clear" --Limpa a tela (Apenas para Ubuntu)
     putStrLn "---------------------------------- Jogo de Dama ----------------------------------"
@@ -34,7 +34,7 @@ menu = do
     executar op
     return ()
 
-executar::Char->IO()
+executar :: Char -> IO()
 executar '1' = do
    
     --Cadastra os jogadores
@@ -53,39 +53,39 @@ executar _ = do
     getChar
     menu
 
-cadastraJogador::Int->Jogadores->IO Jogadores
+cadastraJogador :: Int -> Jogadores -> IO Jogadores
 cadastraJogador id jogadores = do
     nome<-getString("Digite o nome do jogador " ++ show id ++ "\n")
     
     return ((Jogador id nome 12):jogadores)
 
-novoJogo::Jogadores->IO()
+novoJogo :: Jogadores -> IO()
 novoJogo jogadores = do
     system("clear")
     putStrLn("Os 1's equivalem às peças do Jogador 1 e os 2's às do Jogador 2")
     -- Comeca com o primeiro jogador
     novaPartida 1 [1..64]
 
-novaPartida::Int->Tabuleiro->IO()
+novaPartida :: Int -> Tabuleiro -> IO()
 novaPartida id tabuleiro = do
     system("clear")
     putStrLn("Vez do Jogador " ++ show id)
 
 
 -- Renderizar tabuleiro
-
+renderLinhasAux :: Int -> IO()
 renderLinhasAux 8 = putStrLn("")
 renderLinhasAux cont = do
     putStr(" -------")
     renderLinhasAux (cont + 1)
     
-linhaCampoPreto:: Int -> IO()
+linhaCampoPreto :: Int -> IO()
 linhaCampoPreto 8 = putStrLn("|")
 linhaCampoPreto cont = do
     putStr("| . . . ")
     linhaCampoBranco (cont + 1)
     
-linhaCampoBranco:: Int -> IO()
+linhaCampoBranco :: Int -> IO()
 linhaCampoBranco 8 = putStrLn("|")
 linhaCampoBranco cont = do
     putStr("|       ")
@@ -103,7 +103,7 @@ renderLinha cont
         linhaCampoBranco 1
         linhaCampoBranco 1
 
-renderTabuleiro:: Tabuleiro -> Int -> IO()
+renderTabuleiro :: Tabuleiro -> Int -> IO()
 renderTabuleiro _ 17 = do
     renderLinhasAux 1
 
